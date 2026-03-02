@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل المنتج | ezz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1f4bd8; --success: #22c55e; --bg: #f8fafc; --text: #111827; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background: #fff; padding-bottom: 80px; }
+        .nav { padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
+        .back-btn { font-size: 24px; text-decoration: none; color: #000; }
+        .product-img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+        .content { padding: 20px 5%; }
+        .badge { background: #fee2e2; color: #ef4444; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 800; display: inline-block; margin-bottom: 10px; }
+        .title { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
+        .price { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 20px; }
+        .description { color: #6b7280; font-size: 15px; line-height: 1.8; margin-bottom: 30px; }
+        .footer-btns { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 15px 5%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid #eee; }
+        .btn { padding: 15px; border-radius: 12px; font-weight: 800; text-align: center; text-decoration: none; font-size: 16px; }
+        .btn-order { background: var(--primary); color: #fff; }
+        .btn-wa { background: var(--success); color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/" class="back-btn">→</a>
+        <span style="font-weight: 800;">تفاصيل المنتج</span>
+        <a href="/cart" style="text-decoration: none; font-size: 20px;">🛒</a>
+    </div>
+
+    <img src="https://images.unsplash.com/photo-1547996160-81dfa63595dd?auto=format&fit=crop&w=800&q=80" class="product-img">
+
+    <div class="content">
+        <div class="badge">وصل حديثاً</div>
+        <h1 class="title">ساعة Apple Watch Series 9</h1>
+        <p class="price">9,500 EGP</p>
+        <p class="description">اكتشف القوة والجمال في يدك. ساعة ابل الجيل التاسع تأتي بمميزات متطورة لتتبع صحتك ونشاطك الرياضي بدقة متناهية. مقاومة للماء والغبار.</p>
+        
+        <div style="background: #fdf2f2; padding: 15px; border-radius: 12px; border: 1px dashed #f87171;">
+            <p style="color: #991b1b; font-size: 13px; font-weight: 700;">⚠️ تذكر: الطلب الوهمي يهدر الوقت والمجهود. نرجو الجدية في الطلب.</p>
+        </div>
+    </div>
+
+    <div class="footer-btns">
+        <a href="https://wa.me/201068648872" class="btn btn-wa">واتساب</a>
+        <a href="/cart" class="btn btn-order">أطلب الآن</a>
+    </div>
+</body>
+</html>

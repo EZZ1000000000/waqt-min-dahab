@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تتبع طلبك | ezz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1f4bd8; --bg: #f8fafc; --text: #111827; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background: var(--bg); padding: 20px 5%; }
+        .header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .back-btn { font-size: 24px; text-decoration: none; color: var(--text); }
+        .track-card { background: #fff; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .track-card h2 { color: var(--primary); font-weight: 800; margin-bottom: 15px; }
+        .track-input { width: 100%; padding: 15px; border: 1px solid #eef2f7; border-radius: 12px; margin-bottom: 20px; font-size: 16px; text-align: center; outline: none; }
+        .track-btn { width: 100%; background: var(--primary); color: #fff; padding: 15px; border: none; border-radius: 12px; font-weight: 800; font-size: 18px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/" class="back-btn">→</a>
+        <h1 style="font-size: 20px; font-weight: 800;">تتبع الطلب</h1>
+    </div>
+
+    <div class="track-card">
+        <h2>أين طلبي؟ 📦</h2>
+        <p style="color: #6b7280; margin-bottom: 25px;">أدخل رقم الموبايل الذي قمت بالطلب به لمتابعة حالة طلبك</p>
+        <input type="tel" class="track-input" placeholder="رقم الموبايل (01xxxxxxxxx)">
+        <button class="track-btn">تتبع الآن</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+node_modules/
+.env
+.env.production
+database/*.db
+uploads/*
+!.gitkeep
+.DS_Store
+package-lock.json
+.vercel/
+
+.vercel
+.next/
+.agents/
+.claude/
+.neon
