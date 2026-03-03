@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>وقت من ذهب | TIME BEYOND — ساعات فاخرة</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Noto Kufi Arabic', sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(180deg, #0a0a0f 0%, #0f172a 50%, #1e1b4b 100%);
+      min-height: 100vh;
+    }
+    
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: rgba(251, 191, 36, 0.6);
+      border-radius: 50%;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    
+    .glow-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 300px;
+      background: radial-gradient(ellipse at center bottom, rgba(251, 191, 36, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .crescent-moon {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      box-shadow: -15px 8px 0 0 rgba(251, 191, 36, 0.3);
+      transform: rotate(-20deg);
+    }
+    
+    .lantern-glow {
+      position: absolute;
+      width: 60px;
+      height: 100px;
+      background: radial-gradient(ellipse, rgba(251, 191, 36, 0.2) 0%, transparent 70%);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    }
+    
+    .product-scroll {
+      animation: scroll 30s linear infinite;
+    }
+    
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    .product-scroll:hover {
+      animation-play-state: paused;
+    }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(251, 191, 36, 0.1);
+    }
+    
+    .gold-gradient {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .gold-border {
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+    
+    .btn-gold {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(251, 191, 36, 0.3);
+    }
+    
+    .watch-float {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(2deg); }
+    }
+    
+    .modal-overlay {
+      backdrop-filter: blur(8px);
+    }
+    
+    .feature-icon {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(251, 191, 36, 0.05) 100%);
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #0a0a0f;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: rgba(251, 191, 36, 0.3);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(251, 191, 36, 0.5);
+    }
+    
+    .input-gold:focus {
+      border-color: #fbbf24;
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+    }
+  </style>
+</head>
+<body class="text-white overflow-x-hidden relative">
+  <!-- Stars Background -->
+  <div class="stars" id="stars"></div>
+  <div class="glow-bottom"></div>
+  
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass-card">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-2">
+          <i data-lucide="clock" class="w-6 h-6 text-amber-400"></i>
+          <span id="c-brand-nav" class="text-xl font-bold gold-gradient">وقت من ذهب</span>
+        </div>
+        <div class="hidden md:flex items-center gap-4">
+          <div id="auth-buttons" class="flex items-center gap-4">
+            <a href="https://ep-calm-wildflower-aiiie5mr.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth/sign-in" class="text-gray-300 hover:text-amber-400 transition-colors text-sm">تسجيل الدخول</a>
+            <a href="https://ep-calm-wildflower-aiiie5mr.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth/sign-up" class="btn-gold text-slate-900 px-4 py-2 rounded-full text-sm font-semibold">إنشاء حساب</a>
+          </div>
+          <div id="user-profile" class="hidden flex items-center gap-4">
+            <span id="user-email" class="text-gray-300 text-sm"></span>
+            <a href="/dashboard.html" class="text-amber-400 hover:text-amber-300 transition-colors text-sm font-semibold">لوحة التحكم</a>
+            <button onclick="logout()" class="text-gray-400 hover:text-red-400 transition-colors text-sm">خروج</button>
+          </div>
+          <button onclick="scrollToProducts()" id="c-nav-cta" class="btn-gold text-slate-900 px-4 py-2 rounded-full text-sm font-semibold">
+            اطلب الآن
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    // Neon Auth Session Check
+    async function checkAuth() {
+      try {
+        const response = await fetch('https://ep-calm-wildflower-aiiie5mr.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth/session');
+        if (response.ok) {
+          const session = await response.json();
+          if (session && session.user) {
+            document.getElementById('auth-buttons').classList.add('hidden');
+            document.getElementById('user-profile').classList.remove('hidden');
+            document.getElementById('user-email').textContent = session.user.email;
+            
+            // Store token for API calls if needed (Neon Auth uses cookies by default)
+            // But we might need to pass it to our API if they are on different domains
+          }
+        }
+      } catch (err) {
+        console.log('Not logged in');
+      }
+    }
+
+    function logout() {
+      window.location.href = 'https://ep-calm-wildflower-aiiie5mr.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth/sign-out';
+    }
+
+    window.addEventListener('load', checkAuth);
+  </script>
+
+  <!-- Hero Section -->
+  <section id="hero" class="relative min-h-screen flex items-center pt-16">
+    <div class="absolute top-20 right-10 opacity-30">
+      <div class="crescent-moon"></div>
+    </div>
+    <div class="absolute top-40 left-20 opacity-20">
+      <div class="lantern-glow"></div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <!-- Text Content -->
+        <div class="text-center lg:text-right z-10">
+          <div class="inline-flex items-center gap-2 glass-card px-4 py-2 rounded-full mb-6">
+            <span class="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
+            <span id="c-hero-badge" class="text-amber-400 text-sm">الإصدار الرمضاني المحدود</span>
+          </div>
+          
+          <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
+            <span id="c-hero-line1">في رمضان…</span>
+            <span id="c-hero-line2" class="block gold-gradient mt-2">الوقت له معنى آخر.</span>
+          </h1>
+          
+          <p id="c-hero-subtitle" class="text-gray-400 text-lg mb-8 leading-relaxed">
+            اجعل كل لحظة تستحق أن تُعاش — على معصمك.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <button onclick="openOrderModal('Ramadan Edition — Noir Gold')" class="btn-gold text-slate-900 px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center gap-2">
+              <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+              <span id="c-hero-cta">احجز ساعتك الآن</span>
+            </button>
+            <button onclick="scrollToProducts()" class="glass-card text-white px-8 py-4 rounded-full font-semibold hover:border-amber-400/50 transition-colors flex items-center justify-center gap-2">
+              <i data-lucide="eye" class="w-5 h-5"></i>
+              اكتشف المجموعة
+            </button>
+          </div>
+          
+          <div class="flex items-center gap-6 mt-8 justify-center lg:justify-start text-sm text-gray-500">
+            <span class="flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-amber-400"></i>
+              <span id="c-trust1">ضمان سنة</span>
+            </span>
+            <span class="flex items-center gap-2">
+              <i data-lucide="truck" class="w-4 h-4 text-amber-400"></i>
+              <span id="c-trust2">توصيل مجاني</span>
+            </span>
+            <span class="flex items-center gap-2">
+              <i data-lucide="refresh-cw" class="w-4 h-4 text-amber-400"></i>
+              <span id="c-trust3">استبدال 14 يوم</span>
+            </span>
+          </div>
+        </div>
+        
+        <!-- Hero Product Image -->
+        <div class="relative z-10">
+          <div class="watch-float">
+            <div class="relative">
+              <div class="absolute inset-0 bg-amber-400/20 rounded-full blur-3xl"></div>
+              <img id="c-hero-img" src="http://static.photos/minimal/640x360/101" alt="Ramadan Edition Watch" class="relative w-full max-w-lg mx-auto rounded-2xl shadow-2xl shadow-amber-400/20">
+              
+              <!-- Floating Badge -->
+              <div class="absolute -top-4 -right-4 glass-card p-4 rounded-2xl">
+                <div id="c-hero-discount" class="text-amber-400 text-2xl font-bold">٥٠٪</div>
+                <div id="c-hero-discount-label" class="text-gray-400 text-xs">خصم رمضان</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 id="c-feat-title" class="text-3xl md:text-4xl font-bold mb-4">
+          الإصدار الرمضاني المحدود — ساعة <span class="gold-gradient">Noir Gold</span>
+        </h2>
+        <p id="c-feat-desc" class="text-gray-400 max-w-2xl mx-auto leading-relaxed">
+          صُنعت لمن يعرف قيمة الوقت. تصميم يجمع بين روح الشرق وعقلية المستقبل — 
+          هيكل من الفولاذ المصقول بحواف دهبية خفية، وزجاج مقاوم للخدش يعكس ضوء الليل كأنه قمر رمضان.
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div class="glass-card p-6 rounded-2xl text-center hover:border-amber-400/30 transition-colors group">
+          <div id="c-feat1-icon" class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform overflow-hidden">
+            <i data-lucide="settings" class="w-7 h-7 text-amber-400"></i>
+          </div>
+          <h3 id="c-feat1-title" class="font-semibold mb-2 text-sm">حركة أوتوماتيكية</h3>
+          <p id="c-feat1-desc" class="text-gray-500 text-xs">عالية الدقة سويسرية الصنع</p>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl text-center hover:border-amber-400/30 transition-colors group">
+          <div id="c-feat2-icon" class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform overflow-hidden">
+            <i data-lucide="shield" class="w-7 h-7 text-amber-400"></i>
+          </div>
+          <h3 id="c-feat2-title" class="font-semibold mb-2 text-sm">زجاج سفير</h3>
+          <p id="c-feat2-desc" class="text-gray-500 text-xs">مقاوم للخدش بنسبة ٩٩٪</p>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl text-center hover:border-amber-400/30 transition-colors group">
+          <div id="c-feat3-icon" class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform overflow-hidden">
+            <i data-lucide="droplets" class="w-7 h-7 text-amber-400"></i>
+          </div>
+          <h3 id="c-feat3-title" class="font-semibold mb-2 text-sm">مقاومة للماء</h3>
+          <p id="c-feat3-desc" class="text-gray-500 text-xs">حتى عمق ٥٠ متر</p>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl text-center hover:border-amber-400/30 transition-colors group">
+          <div id="c-feat4-icon" class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform overflow-hidden">
+            <i data-lucide="moon" class="w-7 h-7 text-amber-400"></i>
+          </div>
+          <h3 id="c-feat4-title" class="font-semibold mb-2 text-sm">عرض القمر</h3>
+          <p id="c-feat4-desc" class="text-gray-500 text-xs">والتقويم الهجري الفاخر</p>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl text-center hover:border-amber-400/30 transition-colors group">
+          <div id="c-feat5-icon" class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform overflow-hidden">
+            <i data-lucide="gift" class="w-7 h-7 text-amber-400"></i>
+          </div>
+          <h3 id="c-feat5-title" class="font-semibold mb-2 text-sm">علبة هدايا حصرية</h3>
+          <p id="c-feat5-desc" class="text-gray-500 text-xs">بتصميم رمضاني فاخر</p>
+        </div>
+      </div>
+      
+      <div class="text-center mt-12">
+        <p class="text-amber-400 font-semibold flex items-center justify-center gap-2">
+          <i data-lucide="alert-circle" class="w-5 h-5"></i>
+          <span id="c-feat-cta">عدد محدود — خصص ساعتك قبل انتهاء رمضان</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Section -->
+  <section id="video-sec" class="py-10 hidden">
+    <div class="max-w-4xl mx-auto px-4">
+      <div id="video-container" class="glass-card rounded-3xl overflow-hidden aspect-video relative">
+        <!-- Video iframe injected here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Scroll Strip -->
+  <section id="products" class="py-20 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <div class="text-center">
+        <h2 id="c-products-title" class="text-3xl md:text-4xl font-bold mb-4">اختر وقتك — مجموعتنا الكاملة</h2>
+        <p id="c-products-subtitle" class="text-gray-400">كل ساعة حكاية… أي حكاية تختار؟</p>
+      </div>
+    </div>
+    
+    <p id="c-products-note" class="text-center text-amber-400/80 text-sm mb-6">
+      أكثر من ساعة؟ لنفسك، لأبيك، لمن تحب — رمضان وقت العطاء 🌙
+    </p>
+    
+    <div class="relative">
+      <div id="product-scroll-inner" class="product-scroll flex gap-6 w-max">
+        <!-- Product Cards (duplicated for infinite scroll) -->
+        <div class="glass-card p-6 rounded-2xl w-72 flex-shrink-0 hover:border-amber-400/30 transition-all cursor-pointer group" onclick="openOrderModal(document.getElementById('c-p1-name').textContent)">
+          <div class="relative mb-4 overflow-hidden rounded-xl">
+            <img src="http://static.photos/minimal/320x240/201" alt="Noir Gold" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute top-2 right-2 bg-amber-400 text-slate-900 text-xs font-bold px-2 py-1 rounded">جديد</div>
+          </div>
+          <h3 id="c-p1-name" class="font-bold mb-2">Ramadan Edition — Noir Gold</h3>
+          <p id="c-p1-price" class="text-amber-400 text-xl font-bold mb-4">٤,٩٩٠ ج.م</p>
+          <button class="w-full btn-gold text-slate-900 py-3 rounded-xl font-semibold text-sm">
+            اضغط للطلب
+          </button>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl w-72 flex-shrink-0 hover:border-amber-400/30 transition-all cursor-pointer group" onclick="openOrderModal(document.getElementById('c-p2-name').textContent)">
+          <div class="relative mb-4 overflow-hidden rounded-xl">
+            <img src="http://static.photos/minimal/320x240/202" alt="Desert Night" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+          </div>
+          <h3 id="c-p2-name" class="font-bold mb-2">Desert Night — Silver Black</h3>
+          <p id="c-p2-price" class="text-amber-400 text-xl font-bold mb-4">٤,٢٩٠ ج.م</p>
+          <button class="w-full btn-gold text-slate-900 py-3 rounded-xl font-semibold text-sm">
+            اضغط للطلب
+          </button>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl w-72 flex-shrink-0 hover:border-amber-400/30 transition-all cursor-pointer group" onclick="openOrderModal(document.getElementById('c-p3-name').textContent)">
+          <div class="relative mb-4 overflow-hidden rounded-xl">
+            <img id="c-p3-img" src="http://static.photos/minimal/320x240/203" alt="Heritage Classic" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">الأكثر مبيعاً</div>
+          </div>
+          <h3 id="c-p3-name" class="font-bold mb-2">Heritage Classic — Copper</h3>
+          <p id="c-p3-price" class="text-amber-400 text-xl font-bold mb-4">٥,٤٩٠ ج.م</p>
+          <button class="w-full btn-gold text-slate-900 py-3 rounded-xl font-semibold text-sm">
+            اضغط للطلب
+          </button>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl w-72 flex-shrink-0 hover:border-amber-400/30 transition-all cursor-pointer group" onclick="openOrderModal(document.getElementById('c-p4-name').textContent)">
+          <div class="relative mb-4 overflow-hidden rounded-xl">
+            <img id="c-p4-img" src="http://static.photos/minimal/320x240/204" alt="Luna Pro" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute top-2 right-2 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded">محدود</div>
+          </div>
+          <h3 id="c-p4-name" class="font-bold mb-2">Luna Pro — Limited</h3>
+          <p id="c-p4-price" class="text-amber-400 text-xl font-bold mb-4">٧,٩٩٠ ج.م</p>
+          <button class="w-full btn-gold text-slate-900 py-3 rounded-xl font-semibold text-sm">
+            اضغط للطلب
+          </button>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl w-72 flex-shrink-0 hover:border-amber-400/30 transition-all cursor-pointer group" onclick="openOrderModal(document.getElementById('c-p5-name').textContent)">
+          <div class="relative mb-4 overflow-hidden rounded-xl">
+            <img id="c-p5-img" src="http://static.photos/minimal/320x240/205" alt="Future Fajr" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+          </div>
+          <h3 id="c-p5-name" class="font-bold mb-2">Future Fajr — Titanium</h3>
+          <p id="c-p5-price" class="text-amber-400 text-xl font-bold mb-4">٦,٩٩٠ ج.م</p>
+          <button class="w-full btn-gold text-slate-900 py-3 rounded-xl font-semibold text-sm">
+            اضغط للطلب
+          </button>
+        </div>
+        
+        <!-- Duplicate for infinite scroll (IDs omitted, content synced by JS) -->
+        <div class="glass-card p-6 rounded-2xl w-72 flex-shrink-0 hover:border-amber-400/30 transition-all cursor-pointer group" onclick="openOrderModal(document.getElementById('c-p1-name').textContent)">
+          <div class="relative mb-4 overflow-hidden rounded-xl">
+            <img src="http://static.photos/minimal/320x240/201" alt="Noir Gold" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute top-2 right-2 bg-amber-400 text-slate-900 text-xs font-bold px-2 py-1 rounded">جديد</div>
+          </div>
+          <h3 class="font-bold mb-2 c-p1-name-dup">Ramadan Edition — Noir Gold</h3>
+          <p class="text-amber-400 text-xl font-bold mb-4 c-p1-price-dup">٤,٩٩٠ ج.م</p>
+          <button class="w-full btn-gold text-slate-900 py-3 rounded-xl font-semibold text-sm">اضغط للطلب</button>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl w-72 flex-shrink-0 hover:border-amber-400/30 transition-all cursor-pointer group" onclick="openOrderModal(document.getElementById('c-p2-name').textContent)">
+          <div class="relative mb-4 overflow-hidden rounded-xl">
+            <img src="http://static.photos/minimal/320x240/202" alt="Desert Night" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+          </div>
+          <h3 class="font-bold mb-2 c-p2-name-dup">Desert Night — Silver Black</h3>
+          <p class="text-amber-400 text-xl font-bold mb-4 c-p2-price-dup">٤,٢٩٠ ج.م</p>
+          <button class="w-full btn-gold text-slate-900 py-3 rounded-xl font-semibold text-sm">اضغط للطلب</button>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl w-72 flex-shrink-0 hover:border-amber-400/30 transition-all cursor-pointer group" onclick="openOrderModal(document.getElementById('c-p3-name').textContent)">
+          <div class="relative mb-4 overflow-hidden rounded-xl">
+            <img id="c-p3-img" src="http://static.photos/minimal/320x240/203" alt="Heritage Classic" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">الأكثر مبيعاً</div>
+          </div>
+          <h3 class="font-bold mb-2 c-p3-name-dup">Heritage Classic — Copper</h3>
+          <p class="text-amber-400 text-xl font-bold mb-4 c-p3-price-dup">٥,٤٩٠ ج.م</p>
+          <button class="w-full btn-gold text-slate-900 py-3 rounded-xl font-semibold text-sm">اضغط للطلب</button>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl w-72 flex-shrink-0 hover:border-amber-400/30 transition-all cursor-pointer group" onclick="openOrderModal(document.getElementById('c-p4-name').textContent)">
+          <div class="relative mb-4 overflow-hidden rounded-xl">
+            <img id="c-p4-img" src="http://static.photos/minimal/320x240/204" alt="Luna Pro" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute top-2 right-2 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded">محدود</div>
+          </div>
+          <h3 class="font-bold mb-2 c-p4-name-dup">Luna Pro — Limited</h3>
+          <p class="text-amber-400 text-xl font-bold mb-4 c-p4-price-dup">٧,٩٩٠ ج.م</p>
+          <button class="w-full btn-gold text-slate-900 py-3 rounded-xl font-semibold text-sm">اضغط للطلب</button>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl w-72 flex-shrink-0 hover:border-amber-400/30 transition-all cursor-pointer group" onclick="openOrderModal(document.getElementById('c-p5-name').textContent)">
+          <div class="relative mb-4 overflow-hidden rounded-xl">
+            <img id="c-p5-img" src="http://static.photos/minimal/320x240/205" alt="Future Fajr" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+          </div>
+          <h3 class="font-bold mb-2 c-p5-name-dup">Future Fajr — Titanium</h3>
+          <p class="text-amber-400 text-xl font-bold mb-4 c-p5-price-dup">٦,٩٩٠ ج.م</p>
+          <button class="w-full btn-gold text-slate-900 py-3 rounded-xl font-semibold text-sm">اضغط للطلب</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof Section -->
+  <section id="testimonials" class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 id="c-reviews-title" class="text-3xl md:text-4xl font-bold mb-4">آلاف اختاروا وقتهم معنا</h2>
+        <div class="flex items-center justify-center gap-2 text-amber-400">
+          <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+          <span id="c-reviews-rating" class="text-white mr-2">٤.٩ من ٥ بناءً على ٢,٨٤٠ تقييم</span>
+        </div>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="flex gap-1 mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+          </div>
+          <p id="c-rev1-text" class="text-gray-300 mb-4 leading-relaxed">"جاتلي قبل رمضان، ومش قادر أشيلها من إيدي. الجودة فوق الخيال والتصميم ياخد العقل!"</p>
+          <div class="flex items-center gap-3">
+            <div id="c-rev1-avatar" class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center font-bold text-slate-900">م</div>
+            <div>
+              <div id="c-rev1-name" class="font-semibold text-sm">محمد</div>
+              <div id="c-rev1-city" class="text-gray-500 text-xs">القاهرة</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="flex gap-1 mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+          </div>
+          <p id="c-rev2-text" class="text-gray-300 mb-4 leading-relaxed">"هدية لأبويا، اتبسط جداً — الجودة فوق التوقعات. العلبة الرمضانية كانت لمسة راقية جداً."</p>
+          <div class="flex items-center gap-3">
+            <div id="c-rev2-avatar" class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center font-bold text-slate-900">س</div>
+            <div>
+              <div id="c-rev2-name" class="font-semibold text-sm">سارة</div>
+              <div id="c-rev2-city" class="text-gray-500 text-xs">الإسكندرية</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="flex gap-1 mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+          </div>
+          <p id="c-rev3-text" class="text-gray-300 mb-4 leading-relaxed">"التوصيل كان سريع والخدمة ممتازة. الساعة دقيقة جداً وتصميمها فخم يناسب كل المناسبات."</p>
+          <div class="flex items-center gap-3">
+            <div id="c-rev3-avatar" class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center font-bold text-slate-900">أ</div>
+            <div>
+              <div id="c-rev3-name" class="font-semibold text-sm">أحمد</div>
+              <div id="c-rev3-city" class="text-gray-500 text-xs">الجيزة</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-16 border-t border-amber-400/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="flex items-center justify-center gap-2 mb-6">
+        <i data-lucide="clock" class="w-8 h-8 text-amber-400"></i>
+        <span id="c-brand-footer" class="text-2xl font-bold gold-gradient">وقت من ذهب</span>
+      </div>
+      
+      <h3 id="c-footer-tagline" class="text-2xl md:text-3xl font-bold mb-4">الوقت لا يعود — اجعله يستحق.</h3>
+      <p id="c-footer-sub" class="text-amber-400 text-lg mb-8">رمضان كريم 🌙</p>
+      
+      <div class="flex items-center justify-center gap-6 mb-8">
+        <a id="c-link-wa" href="https://wa.me/201000000000" target="_blank" class="glass-card p-3 rounded-full hover:border-amber-400/50 transition-colors">
+          <i data-lucide="message-circle" class="w-5 h-5 text-green-400"></i>
+        </a>
+        <a id="c-link-ig" href="#" class="glass-card p-3 rounded-full hover:border-amber-400/50 transition-colors">
+          <i data-lucide="instagram" class="w-5 h-5 text-pink-400"></i>
+        </a>
+        <a id="c-link-fb" href="#" class="glass-card p-3 rounded-full hover:border-amber-400/50 transition-colors">
+          <i data-lucide="facebook" class="w-5 h-5 text-blue-400"></i>
+        </a>
+      </div>
+      
+      <div class="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500">
+        <a href="#" class="hover:text-amber-400 transition-colors">سياسة الاستبدال</a>
+        <a href="#" class="hover:text-amber-400 transition-colors">الشروط والأحكام</a>
+        <a href="#" class="hover:text-amber-400 transition-colors">سياسة الخصوصية</a>
+      </div>
+      
+      <p id="c-footer-copy" class="text-gray-600 text-sm mt-8">© ٢٠٢٥ وقت من ذهب. جميع الحقوق محفوظة.</p>
+    </div>
+  </footer>
+
+  <!-- Order Modal -->
+  <div id="orderModal" class="fixed inset-0 z-50 hidden">
+    <div class="modal-overlay absolute inset-0 bg-black/80" onclick="closeOrderModal()"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="glass-card w-full max-w-md rounded-3xl p-8 relative animate-in fade-in zoom-in duration-300">
+        <button onclick="closeOrderModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white transition-colors">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        
+        <div class="text-center mb-6">
+          <div class="inline-flex items-center gap-2 text-amber-400 mb-2">
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+            <span class="text-sm">على وشك امتلاك شيء استثنائي ✦</span>
+          </div>
+          <h3 id="modalProductName" class="text-xl font-bold">Ramadan Edition — Noir Gold</h3>
+        </div>
+        
+        <p class="text-gray-400 text-center text-sm mb-6">
+          أكمل بياناتك وسنتواصل معك خلال ساعات —<br>
+          التوصيل لجميع محافظات مصر 🇪🇬
+        </p>
+        
+        <form id="orderForm" onsubmit="submitOrder(event)">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm text-gray-400 mb-2">الاسم</label>
+              <input type="text" id="customerName" required placeholder="ما اسمك يا صاحب الذوق؟" 
+                class="input-gold w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 outline-none transition-all">
+            </div>
+            
+            <div>
+              <label class="block text-sm text-gray-400 mb-2">المحافظة</label>
+              <select id="customerGovernorate" required 
+                class="input-gold w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white outline-none transition-all">
+                <option value="" class="bg-slate-900">أين نوصلها إليك؟</option>
+                <option value="القاهرة" class="bg-slate-900">القاهرة</option>
+                <option value="الجيزة" class="bg-slate-900">الجيزة</option>
+                <option value="الإسكندرية" class="bg-slate-900">الإسكندرية</option>
+                <option value="الدقهلية" class="bg-slate-900">الدقهلية</option>
+                <option value="الشرقية" class="bg-slate-900">الشرقية</option>
+                <option value="الغربية" class="bg-slate-900">الغربية</option>
+                <option value="القليوبية" class="bg-slate-900">القليوبية</option>
+                <option value="المنوفية" class="bg-slate-900">المنوفية</option>
+                <option value="البحيرة" class="bg-slate-900">البحيرة</option>
+                <option value="كفر الشيخ" class="bg-slate-900">كفر الشيخ</option>
+                <option value="الإسماعيلية" class="bg-slate-900">الإسماعيلية</option>
+                <option value="السويس" class="bg-slate-900">السويس</option>
+                <option value="بورسعيد" class="bg-slate-900">بورسعيد</option>
+                <option value="الفيوم" class="bg-slate-900">الفيوم</option>
+                <option value="بني سويف" class="bg-slate-900">بني سويف</option>
+                <option value="المنيا" class="bg-slate-900">المنيا</option>
+                <option value="أسيوط" class="bg-slate-900">أسيوط</option>
+                <option value="سوهاج" class="bg-slate-900">سوهاج</option>
+                <option value="قنا" class="bg-slate-900">قنا</option>
+                <option value="الأقصر" class="bg-slate-900">الأقصر</option>
+                <option value="أسوان" class="bg-slate-900">أسوان</option>
+                <option value="أخرى" class="bg-slate-900">أخرى</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm text-gray-400 mb-2">رقم الهاتف</label>
+              <input type="tel" id="customerPhone" required placeholder="رقمك — للتأكيد فقط" 
+                class="input-gold w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 outline-none transition-all" 
+                pattern="[0-9]{11}" dir="ltr">
+            </div>
+          </div>
+          
+          <button type="submit" id="submitBtn" class="w-full btn-gold text-slate-900 py-4 rounded-xl font-bold text-lg mt-6 flex items-center justify-center gap-2">
+            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+            احجز ساعتك الآن — التوصيل مجاني
+          </button>
+          <p id="submitError" class="text-red-400 text-sm text-center mt-3 hidden"></p>
+        </form>
+        
+        <div class="flex items-center justify-center gap-4 mt-6 text-xs text-gray-500">
+          <span class="flex items-center gap-1">
+            <i data-lucide="check-circle" class="w-3 h-3 text-green-400"></i>
+            طلبك آمن
+          </span>
+          <span class="flex items-center gap-1">
+            <i data-lucide="check-circle" class="w-3 h-3 text-green-400"></i>
+            دفع عند الاستلام
+          </span>
+          <span class="flex items-center gap-1">
+            <i data-lucide="check-circle" class="w-3 h-3 text-green-400"></i>
+            ضمان الجودة
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="fixed inset-0 z-50 hidden">
+    <div class="modal-overlay absolute inset-0 bg-black/80"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="glass-card w-full max-w-sm rounded-3xl p-8 text-center animate-in fade-in zoom-in duration-300">
+        <div class="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-6">
+          <i data-lucide="check" class="w-10 h-10 text-green-400"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-4">تم استلام طلبك! 🎉</h3>
+        <p class="text-gray-400 mb-6">
+          سنتواصل معك خلال ٢٤ ساعة لتأكيد الطلب وترتيب التوصيل.<br>
+          رمضان كريم 🌙
+        </p>
+        <button onclick="closeSuccessModal()" class="btn-gold text-slate-900 px-8 py-3 rounded-xl font-bold">
+          العودة للرئيسية
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+    
+    // Generate stars
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.animationDelay = Math.random() * 3 + 's';
+      star.style.animationDuration = (2 + Math.random() * 2) + 's';
+      starsContainer.appendChild(star);
+    }
+
+    /* ══════════════════════════════════════════
+       CONTENT LOADER — يجيب البيانات من الداش
+    ══════════════════════════════════════════ */
+    function set(id, val) {
+      const el = document.getElementById(id);
+      if (el && val) el.textContent = val;
+    }
+    function setAll(cls, val) {
+      if (val) document.querySelectorAll('.' + cls).forEach(el => el.textContent = val);
+    }
+
+    async function loadContent() {
+      try {
+        const res = await fetch('/api/content');
+        const c   = await res.json();
+
+        // Brand
+        set('c-brand-nav',    c.brand_name);
+        set('c-brand-footer', c.brand_name);
+        if (c.nav_cta_text) document.getElementById('c-nav-cta').textContent = c.nav_cta_text;
+
+        // Hero
+        set('c-hero-badge',          c.hero_badge);
+        set('c-hero-line1',          c.hero_line1);
+        set('c-hero-line2',          c.hero_line2);
+        set('c-hero-subtitle',       c.hero_subtitle);
+        set('c-hero-cta',            c.hero_cta);
+        set('c-hero-discount',       c.hero_discount);
+        set('c-hero-discount-label', c.hero_discount_label);
+        if (c.hero_watch_img) document.getElementById('c-hero-img').src = c.hero_watch_img;
+
+        // Video
+        if (c.video_url) {
+            document.getElementById('video-sec').classList.remove('hidden');
+            let vid = c.video_url;
+            if (vid.includes('youtube.com/watch?v=')) vid = vid.replace('watch?v=', 'embed/');
+            else if (vid.includes('youtu.be/')) vid = vid.replace('youtu.be/', 'youtube.com/embed/');
+            
+            document.getElementById('video-container').innerHTML = `<iframe src="${vid}" class="absolute inset-0 w-full h-full border-0" allowfullscreen></iframe>`;
+        }
+
+        // Trust badges
+        set('c-trust1', c.trust1_title);
+        set('c-trust2', c.trust2_title);
+        set('c-trust3', c.trust3_title);
+
+        // Features
+        set('c-feat-title', c.feat_section_title);
+        set('c-feat-desc',  c.feat_section_desc);
+        set('c-feat-cta',   c.feat_cta_text);
+        for (let n = 1; n <= 5; n++) {
+          set(`c-feat${n}-title`, c[`feat${n}_title`]);
+          set(`c-feat${n}-desc`,  c[`feat${n}_desc`]);
+          if (c[`feat${n}_img`]) {
+              document.getElementById(`c-feat${n}-icon`).innerHTML = `<img src="${c[`feat${n}_img`]}" class="w-full h-full object-cover">`;
+          }
+        }
+
+        // Products section titles
+        set('c-products-title',    c.products_title);
+        set('c-products-subtitle', c.products_subtitle);
+        set('c-products-note',     c.products_note);
+
+        // Load Dynamic Products
+        loadProducts();
+
+        // Reviews
+        set('c-reviews-title',  c.reviews_title);
+        set('c-reviews-rating', c.reviews_rating);
+        for (let n = 1; n <= 3; n++) {
+          if (c[`rev${n}_text`]) set(`c-rev${n}-text`, `"${c[`rev${n}_text`]}"`);
+          // Parse "الاسم من المدينة" format
+          if (c[`rev${n}_name`]) {
+            const parts = (c[`rev${n}_name`] || '').split(' من ');
+            const firstName = parts[0] || c[`rev${n}_name`] || '';
+            const city      = parts[1] || '';
+            set(`c-rev${n}-name`,   firstName);
+            set(`c-rev${n}-city`,   city);
+            
+            const avatarEl = document.getElementById(`c-rev${n}-avatar`);
+            if (avatarEl) {
+                if (c[`rev${n}_img`]) avatarEl.innerHTML = `<img src="${c[`rev${n}_img`]}" class="w-full h-full rounded-full object-cover">`;
+                else avatarEl.textContent = firstName.charAt(0);
+            }
+          }
+        }
+
+        // Footer
+        set('c-footer-tagline', c.footer_tagline);
+        set('c-footer-sub',     c.footer_sub);
+        set('c-footer-copy',    c.footer_copy);
+
+        // Social links
+        if (c.social_whatsapp) document.getElementById('c-link-wa').href = `https://wa.me/${c.social_whatsapp.replace(/\D/g,'')}`;
+        if (c.social_instagram && c.social_instagram !== '#') document.getElementById('c-link-ig').href = c.social_instagram;
+        if (c.social_facebook  && c.social_facebook  !== '#') document.getElementById('c-link-fb').href = c.social_facebook;
+
+      } catch(e) {
+        console.warn('Content API not available, using defaults.');
+      }
+    }
+
+    async function loadProducts() {
+        const container = document.getElementById('product-scroll-inner');
+        if (!container) return;
+
+        try {
+            const res = await fetch('/api/products');
+            const products = await res.json();
+            
+            if (products.length === 0) return;
+
+            // Render products twice for infinite scroll
+            const renderSet = [...products, ...products];
+            container.innerHTML = renderSet.map(p => `
+                <div class="glass-card p-6 rounded-2xl w-72 flex-shrink-0 hover:border-amber-400/30 transition-all cursor-pointer group" onclick="openOrderModal('${p.name}')">
+                  <div class="relative mb-4 overflow-hidden rounded-xl">
+                    <img src="${p.image_url}" alt="${p.name}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+                    ${p.badge ? `<div class="absolute top-2 right-2 bg-amber-400 text-slate-900 text-xs font-bold px-2 py-1 rounded">${p.badge}</div>` : ''}
+                  </div>
+                  <h3 class="font-bold mb-2">${p.name}</h3>
+                  <p class="text-amber-400 text-xl font-bold mb-4">${p.price}</p>
+                  <button class="w-full btn-gold text-slate-900 py-3 rounded-xl font-semibold text-sm">
+                    اضغط للطلب
+                  </button>
+                </div>
+            `).join('');
+            
+            lucide.createIcons();
+        } catch (e) {
+            console.error('Failed to load products:', e);
+        }
+    }
+
+    /* ══════════════════════════════════════════
+       MODAL
+    ══════════════════════════════════════════ */
+    function openOrderModal(productName) {
+      document.getElementById('modalProductName').textContent = productName || 'Ramadan Edition';
+      document.getElementById('orderModal').classList.remove('hidden');
+      document.getElementById('submitError').classList.add('hidden');
+      document.body.style.overflow = 'hidden';
+      lucide.createIcons();
+    }
+    
+    function closeOrderModal() {
+      document.getElementById('orderModal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    
+    function closeSuccessModal() {
+      document.getElementById('successModal').classList.add('hidden');
+      document.body.style.overflow = '';
+      document.getElementById('orderForm').reset();
+    }
+    
+    function scrollToProducts() {
+      document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* ══════════════════════════════════════════
+       SUBMIT ORDER → /api/leads
+    ══════════════════════════════════════════ */
+    async function submitOrder(e) {
+      e.preventDefault();
+
+      const btn    = document.getElementById('submitBtn');
+      const errEl  = document.getElementById('submitError');
+      btn.disabled = true;
+      btn.innerHTML = '<span style="display:inline-block;width:18px;height:18px;border:2px solid #000;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite"></span> جاري الإرسال...';
+      errEl.classList.add('hidden');
+
+      const data = {
+        name:        document.getElementById('customerName').value,
+        phone:       document.getElementById('customerPhone').value,
+        governorate: document.getElementById('customerGovernorate').value,
+        address:     document.getElementById('modalProductName').textContent,
+        quantity:    1
+      };
+
+      try {
+        const res = await fetch('/api/leads', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(data)
+        });
+        if (res.ok) {
+          closeOrderModal();
+          document.getElementById('orderForm').reset();
+          document.getElementById('successModal').classList.remove('hidden');
+          lucide.createIcons();
+        } else {
+          const j = await res.json();
+          errEl.textContent = j.error || 'حدث خطأ، حاول مرة أخرى';
+          errEl.classList.remove('hidden');
+        }
+      } catch {
+        errEl.textContent = 'تعذر الاتصال بالخادم';
+        errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="shopping-bag" class="w-5 h-5"></i> احجز ساعتك الآن — التوصيل مجاني';
+        lucide.createIcons();
+      }
+    }
+
+    /* ══════════════════════════════════════════
+       SMOOTH SCROLL + NAVBAR
+    ══════════════════════════════════════════ */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+    
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const navbar = document.querySelector('nav');
+      const currentScroll = window.pageYOffset;
+      if (currentScroll > 100) {
+        navbar.classList.add('shadow-lg', 'shadow-amber-400/5');
+      } else {
+        navbar.classList.remove('shadow-lg', 'shadow-amber-400/5');
+      }
+      lastScroll = currentScroll;
+    });
+
+    /* spin keyframe for submit button */
+    const style = document.createElement('style');
+    style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+    document.head.appendChild(style);
+
+    /* ══════════════════════════════════════════
+       INIT
+    ══════════════════════════════════════════ */
+    document.addEventListener('DOMContentLoaded', loadContent);
+  </script>
+</body>
+</html>
