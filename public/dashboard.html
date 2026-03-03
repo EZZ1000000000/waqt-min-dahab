@@ -1510,12 +1510,12 @@
                     try {
                         const response = await fetch('https://ep-calm-wildflower-aiiie5mr.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth/session');
                         if (!response.ok) {
-                            window.location.href = 'https://ep-calm-wildflower-aiiie5mr.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth/sign-in?return_to=' + encodeURIComponent(window.location.href);
+                            console.log('Neon Auth session not found, staying on login page for fallback');
                             return;
                         }
                         const session = await response.json();
                         if (!session || !session.user) {
-                            window.location.href = 'https://ep-calm-wildflower-aiiie5mr.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth/sign-in?return_to=' + encodeURIComponent(window.location.href);
+                            console.log('No Neon session user found');
                             return;
                         }
 
@@ -1531,7 +1531,6 @@
                         showDash();
                     } catch (err) {
                         console.error('Auth error:', err);
-                        window.location.href = 'https://ep-calm-wildflower-aiiie5mr.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth/sign-in';
                     }
                 }
 
